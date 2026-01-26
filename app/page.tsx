@@ -79,7 +79,7 @@ export default function Home() {
       <div className="max-w-4xl mx-auto bg-gray-100 text-black backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
         {/* Banner */}
         <img
-          src="/banner3.png"
+          src="/banner4.jpeg"
           alt="Pickleball Tournament Banner"
           className="rounded-2xl mb-6"
         />
@@ -172,7 +172,7 @@ export default function Home() {
                   </h2>
                   <label
                     htmlFor="proofUpload"
-                    className="inline-block cursor-pointer bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition"
+                    className="inline-block cursor-pointer bg-gray-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-500 transition"
                   >
                     Click here to upload proof of payment
                   </label>
@@ -200,7 +200,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={loading}
-                className="col-span-full bg-yellow-400 text-black font-bold py-3 rounded-xl hover:bg-yellow-300 transition"
+                className="col-span-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-500 transition cursor-pointer"
               >
                 {loading ? 'Submitting...' : 'Submit Registration'}
               </button>
