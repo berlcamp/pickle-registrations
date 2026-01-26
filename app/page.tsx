@@ -9,6 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [proofFile, setProofFile] = useState<File | null>(null)
+  const [errorMsg, setErrorMsg] = useState('')
 
   const [form, setForm] = useState({
     player_a_fullname: '',
@@ -30,6 +31,12 @@ export default function Home() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+    setErrorMsg('')
+
+    if (!proofFile) {
+      setErrorMsg('❌ Please upload proof of payment before submitting.')
+      return
+    }
     setLoading(true)
 
     let proofUrl = null
@@ -169,19 +176,22 @@ export default function Home() {
                   >
                     Click here to upload proof of payment
                   </label>
-
                   <input
                     id="proofUpload"
                     type="file"
                     accept="image/*"
-                    required
                     onChange={(e) => setProofFile(e.target.files?.[0] || null)}
                     className="hidden"
                   />
-
                   {proofFile && (
                     <p className="text-sm mt-2 text-green-300">
                       Selected: {proofFile.name}
+                    </p>
+                  )}
+
+                  {errorMsg && (
+                    <p className="text-red-400 font-semibold mt-2">
+                      {errorMsg}
                     </p>
                   )}
                 </div>
