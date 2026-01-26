@@ -79,7 +79,7 @@ export default function Home() {
       <div className="max-w-4xl mx-auto bg-gray-100 text-black backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
         {/* Banner */}
         <img
-          src="/banner2.png"
+          src="/banner3.png"
           alt="Pickleball Tournament Banner"
           className="rounded-2xl mb-6"
         />
