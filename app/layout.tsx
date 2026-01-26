@@ -36,7 +36,7 @@ export default function RootLayout({
         />
         <meta
           property="og:image"
-          content="https://pickle-registrations.vercel.app/banner.png"
+          content="https://pickle-registrations.vercel.app/banner2.png"
         />
         <meta
           property="og:url"
@@ -47,7 +47,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content="https://pickle-registrations.vercel.app/banner.png"
+          content="https://pickle-registrations.vercel.app/banner2.png"
         />
       </Head>
       <body
