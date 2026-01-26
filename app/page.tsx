@@ -75,8 +75,8 @@ export default function Home() {
 
   return (
     // <main className="min-h-screen bg-linear-to-br from-blue-900 via-green-900 to-blue-600 text-white p-6">
-    <main className="min-h-screen bg-black text-white p-6">
-      <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
+    <main className="min-h-screen bg-black p-6">
+      <div className="max-w-4xl mx-auto bg-gray-100 text-black backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
         {/* Banner */}
         <img
           src="/banner.png"
@@ -84,10 +84,10 @@ export default function Home() {
           className="rounded-2xl mb-6"
         />
 
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-2">
+        <h1 className="text-xl md:text-4xl font-bold text-center mb-2">
           Pickleball Tournament Registration
         </h1>
-        <p className="text-center text-sm opacity-80 mb-6">
+        <p className="text-center text-base opacity-80 mb-6">
           February 27–28, 2026 • Podlike Pickleball Court, Tangub City
         </p>
 
@@ -95,7 +95,7 @@ export default function Home() {
           {!success && (
             <div className="grid md:grid-cols-2 gap-6">
               {/* PLAYER A */}
-              <section className="bg-white/10 p-4 rounded-xl">
+              <section className="bg-gray-300 p-4 rounded-xl">
                 <h2 className="font-semibold text-xl mb-3">Player A</h2>
                 <Input
                   label="Full Name"
@@ -125,7 +125,7 @@ export default function Home() {
               </section>
 
               {/* PLAYER B */}
-              <section className="bg-white/10 p-4 rounded-xl">
+              <section className="bg-gray-300 p-4 rounded-xl">
                 <h2 className="font-semibold text-xl mb-3">Player B</h2>
                 <Input
                   label="Full Name"
@@ -154,7 +154,7 @@ export default function Home() {
                 />
               </section>
 
-              <section className="bg-white/10 p-4 rounded-xl">
+              <section className="bg-gray-300 p-4 rounded-xl">
                 <div>
                   <h2 className="font-semibold text-lg mb-3">Pay with GCash</h2>
                   <Image
@@ -165,7 +165,7 @@ export default function Home() {
                   />
                 </div>
               </section>
-              <section className="bg-white/10 p-4 rounded-xl">
+              <section className="bg-gray-300 p-4 rounded-xl">
                 <div>
                   <h2 className="font-semibold text-xl mb-3">
                     Proof of Payment
@@ -226,9 +226,10 @@ function Input({ label, name, onChange }: any) {
       <label className="text-base block mb-1">{label}</label>
       <input
         name={name}
+        placeholder={label}
         required
         onChange={onChange}
-        className="w-full p-2 rounded bg-black/40 border border-white/20 focus:outline-none"
+        className="w-full p-2 rounded bg-gray-100 border border-white/20 focus:outline-none"
       />
     </div>
   )
@@ -242,7 +243,7 @@ function Select({ label, name, onChange }: any) {
         name={name}
         required
         onChange={onChange}
-        className="w-full p-2 rounded bg-black/40 border border-white/20 focus:outline-none"
+        className="w-full p-2 rounded bg-gray-100 border-white/20 focus:outline-none"
       >
         <option value="">Select size</option>
         <option>XS</option>
