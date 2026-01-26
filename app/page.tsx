@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { supabase } from '@/lib/supabase'
+import Image from 'next/image'
 import { useState } from 'react'
 
 export default function Home() {
@@ -66,7 +67,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-blue-900 via-green-700 to-blue-600 text-white p-6">
+    <main className="min-h-screen bg-linear-to-br from-blue-900 via-green-900 to-blue-600 text-white p-6">
       <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
         {/* Banner */}
         <img
@@ -87,7 +88,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-6">
               {/* PLAYER A */}
               <section className="bg-white/10 p-4 rounded-xl">
-                <h2 className="font-semibold text-lg mb-3">Player A</h2>
+                <h2 className="font-semibold text-xl mb-3">Player A</h2>
                 <Input
                   label="Full Name"
                   name="player_a_fullname"
@@ -117,7 +118,7 @@ export default function Home() {
 
               {/* PLAYER B */}
               <section className="bg-white/10 p-4 rounded-xl">
-                <h2 className="font-semibold text-lg mb-3">Player B</h2>
+                <h2 className="font-semibold text-xl mb-3">Player B</h2>
                 <Input
                   label="Full Name"
                   name="player_b_fullname"
@@ -145,16 +146,45 @@ export default function Home() {
                 />
               </section>
 
-              <div className="col-span-full bg-white/10 p-4 rounded-xl">
-                <h2 className="font-semibold text-lg mb-3">Proof of Payment</h2>
-                <input
-                  type="file"
-                  accept="image/*"
-                  required
-                  onChange={(e) => setProofFile(e.target.files?.[0] || null)}
-                  className="w-full text-sm"
-                />
-              </div>
+              <section className="bg-white/10 p-4 rounded-xl">
+                <div>
+                  <h2 className="font-semibold text-lg mb-3">Pay with GCash</h2>
+                  <Image
+                    src="/gcashqr.jpg"
+                    alt="GCash"
+                    width={200}
+                    height={100}
+                  />
+                </div>
+              </section>
+              <section className="bg-white/10 p-4 rounded-xl">
+                <div>
+                  <h2 className="font-semibold text-xl mb-3">
+                    Proof of Payment
+                  </h2>
+                  <label
+                    htmlFor="proofUpload"
+                    className="inline-block cursor-pointer bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition"
+                  >
+                    Click here to upload proof of payment
+                  </label>
+
+                  <input
+                    id="proofUpload"
+                    type="file"
+                    accept="image/*"
+                    required
+                    onChange={(e) => setProofFile(e.target.files?.[0] || null)}
+                    className="hidden"
+                  />
+
+                  {proofFile && (
+                    <p className="text-sm mt-2 text-green-300">
+                      Selected: {proofFile.name}
+                    </p>
+                  )}
+                </div>
+              </section>
 
               <button
                 type="submit"
@@ -182,7 +212,7 @@ export default function Home() {
 function Input({ label, name, onChange }: any) {
   return (
     <div className="mb-3">
-      <label className="text-sm block mb-1">{label}</label>
+      <label className="text-base block mb-1">{label}</label>
       <input
         name={name}
         required
