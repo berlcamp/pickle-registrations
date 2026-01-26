@@ -67,7 +67,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-blue-900 via-green-900 to-blue-600 text-white p-6">
+    // <main className="min-h-screen bg-linear-to-br from-blue-900 via-green-900 to-blue-600 text-white p-6">
+    <main className="min-h-screen bg-black text-white p-6">
       <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl shadow-xl p-6 md:p-10">
         {/* Banner */}
         <img
