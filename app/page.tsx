@@ -22,21 +22,133 @@ export default function Home() {
     player_b_address: '',
     player_b_contact: '',
     player_b_tshirt_size: '',
-    player_b_facebook: ''
+    player_b_facebook: '',
+
+    approval_code: ''
   })
 
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  // Validation functions
+  const validateFullName = (name: string): string => {
+    if (!name.trim()) return 'Full name is required'
+    if (name.trim().length < 2) return 'Full name must be at least 2 characters'
+    if (name.trim().length > 100) return 'Full name must be less than 100 characters'
+    if (!/^[a-zA-Z\s'-]+$/.test(name.trim())) return 'Full name can only contain letters, spaces, hyphens, and apostrophes'
+    return ''
+  }
+
+  const validateAddress = (address: string): string => {
+    if (!address.trim()) return 'Address is required'
+    if (address.trim().length < 5) return 'Address must be at least 5 characters'
+    if (address.trim().length > 200) return 'Address must be less than 200 characters'
+    return ''
+  }
+
+  const validateContact = (contact: string): string => {
+    if (!contact.trim()) return 'Contact number is required'
+    if (contact.trim().length < 3) return 'Contact number must be at least 3 characters'
+    return ''
+  }
+
+  const validateTShirtSize = (size: string): string => {
+    if (!size) return 'T-shirt size is required'
+    const validSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+    if (!validSizes.includes(size)) return 'Please select a valid t-shirt size'
+    return ''
+  }
+
+  const validateFacebook = (facebook: string): string => {
+    if (!facebook.trim()) return 'Facebook name is required'
+    if (facebook.trim().length < 2) return 'Facebook name must be at least 2 characters'
+    if (facebook.trim().length > 100) return 'Facebook name must be less than 100 characters'
+    return ''
+  }
+
+  const validateApprovalCode = (code: string): string => {
+    if (!code.trim()) return 'Approval code is required'
+    if (code.trim().length < 4) return 'Approval code must be at least 4 characters'
+    if (code.trim().length > 50) return 'Approval code must be less than 50 characters'
+    return ''
+  }
+
+  const validateFile = (file: File | null): string => {
+    if (!file) return 'Proof of payment is required'
+    // Check file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+    if (!validTypes.includes(file.type)) {
+      return 'Please upload a valid image file (JPEG, PNG, GIF, or WebP)'
+    }
+    return ''
+  }
+
+  const validateField = (name: string, value: string) => {
+    let error = ''
+    
+    if (name.includes('fullname')) {
+      error = validateFullName(value)
+    } else if (name.includes('address')) {
+      error = validateAddress(value)
+    } else if (name.includes('contact')) {
+      error = validateContact(value)
+    } else if (name.includes('tshirt_size')) {
+      error = validateTShirtSize(value)
+    } else if (name.includes('facebook')) {
+      error = validateFacebook(value)
+    } else if (name === 'approval_code') {
+      error = validateApprovalCode(value)
+    }
+
+    setErrors(prev => ({ ...prev, [name]: error }))
+    return error === ''
+  }
+
   const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setForm({ ...form, [name]: value })
+    // Clear error when user starts typing
+    if (errors[name]) {
+      validateField(name, value)
+    }
+  }
+
+  const handleBlur = (e: any) => {
+    const { name, value } = e.target
+    validateField(name, value)
   }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setErrorMsg('')
 
-    if (!proofFile) {
-      setErrorMsg('❌ Please upload proof of payment before submitting.')
+    // Validate all fields
+    const fieldValidations = [
+      validateField('player_a_fullname', form.player_a_fullname),
+      validateField('player_a_address', form.player_a_address),
+      validateField('player_a_contact', form.player_a_contact),
+      validateField('player_a_tshirt_size', form.player_a_tshirt_size),
+      validateField('player_a_facebook', form.player_a_facebook),
+      validateField('player_b_fullname', form.player_b_fullname),
+      validateField('player_b_address', form.player_b_address),
+      validateField('player_b_contact', form.player_b_contact),
+      validateField('player_b_tshirt_size', form.player_b_tshirt_size),
+      validateField('player_b_facebook', form.player_b_facebook),
+      validateField('approval_code', form.approval_code),
+    ]
+
+    const fileError = validateFile(proofFile)
+    if (fileError) {
+      setErrorMsg(`❌ ${fileError}`)
+    }
+
+    // Check if all validations passed
+    const allValid = fieldValidations.every(valid => valid) && !fileError
+
+    if (!allValid) {
+      setErrorMsg('❌ Please fix all validation errors before submitting.')
       return
     }
+
     setLoading(true)
 
     let proofUrl = null
@@ -100,27 +212,42 @@ export default function Home() {
                 <Input
                   label="Full Name"
                   name="player_a_fullname"
+                  value={form.player_a_fullname}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_a_fullname}
                 />
                 <Input
                   label="Address"
                   name="player_a_address"
+                  value={form.player_a_address}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_a_address}
                 />
                 <Input
                   label="Contact Number"
                   name="player_a_contact"
+                  value={form.player_a_contact}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_a_contact}
                 />
                 <Select
                   label="T-Shirt Size"
                   name="player_a_tshirt_size"
+                  value={form.player_a_tshirt_size}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_a_tshirt_size}
                 />
                 <Input
                   label="Facebook Name"
                   name="player_a_facebook"
+                  value={form.player_a_facebook}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_a_facebook}
                 />
               </section>
 
@@ -130,28 +257,60 @@ export default function Home() {
                 <Input
                   label="Full Name"
                   name="player_b_fullname"
+                  value={form.player_b_fullname}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_b_fullname}
                 />
                 <Input
                   label="Address"
                   name="player_b_address"
+                  value={form.player_b_address}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_b_address}
                 />
                 <Input
                   label="Contact Number"
                   name="player_b_contact"
+                  value={form.player_b_contact}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_b_contact}
                 />
                 <Select
                   label="T-Shirt Size"
                   name="player_b_tshirt_size"
+                  value={form.player_b_tshirt_size}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_b_tshirt_size}
                 />
                 <Input
                   label="Facebook Name"
                   name="player_b_facebook"
+                  value={form.player_b_facebook}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.player_b_facebook}
                 />
+              </section>
+
+              <section className="bg-gray-300 p-4 rounded-xl col-span-full">
+                <h2 className="font-semibold text-xl mb-3">
+                  Registration Approval Code
+                </h2>
+                <Input
+                  label="Approval Code"
+                  name="approval_code"
+                  value={form.approval_code}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.approval_code}
+                />
+                <p className="text-sm text-gray-600 mt-2">
+                  Please get your approval code from <strong>Steven Nowel Casilang</strong> or <strong>Berl Campomanes</strong> on Facebook.
+                </p>
               </section>
 
               <section className="bg-gray-300 p-4 rounded-xl">
@@ -179,21 +338,41 @@ export default function Home() {
                   <input
                     id="proofUpload"
                     type="file"
-                    accept="image/*"
-                    onChange={(e) => setProofFile(e.target.files?.[0] || null)}
+                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null
+                      setProofFile(file)
+                      if (file) {
+                        const fileError = validateFile(file)
+                        if (fileError) {
+                          setErrorMsg(`❌ ${fileError}`)
+                        } else {
+                          setErrorMsg('')
+                        }
+                      } else {
+                        setErrorMsg('')
+                      }
+                    }}
                     className="hidden"
                   />
                   {proofFile && (
-                    <p className="text-sm mt-2 text-green-300">
-                      Selected: {proofFile.name}
-                    </p>
+                    <div className="mt-2">
+                      <p className="text-sm text-green-600 font-semibold">
+                        ✓ Selected: {proofFile.name}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Size: {(proofFile.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
                   )}
-
                   {errorMsg && (
-                    <p className="text-red-400 font-semibold mt-2">
+                    <p className="text-red-600 font-semibold mt-2">
                       {errorMsg}
                     </p>
                   )}
+                  <p className="text-xs text-gray-600 mt-2">
+                    Accepted formats: JPEG, PNG, GIF, WebP
+                  </p>
                 </div>
               </section>
 
@@ -220,30 +399,39 @@ export default function Home() {
 // ===============================
 // 4) REUSABLE INPUT COMPONENTS
 // ===============================
-function Input({ label, name, onChange }: any) {
+function Input({ label, name, value, onChange, onBlur, error, placeholder }: any) {
   return (
     <div className="mb-3">
       <label className="text-base block mb-1">{label}</label>
       <input
         name={name}
-        placeholder={label}
-        required
+        value={value}
+        placeholder={placeholder || label}
         onChange={onChange}
-        className="w-full p-2 rounded bg-gray-100 border border-white/20 focus:outline-none"
+        onBlur={onBlur}
+        className={`w-full p-2 rounded bg-gray-100 border-2 ${
+          error ? 'border-red-500' : 'border-white/20'
+        } focus:outline-none focus:ring-2 focus:ring-blue-500`}
       />
+      {error && (
+        <p className="text-red-600 text-sm mt-1">{error}</p>
+      )}
     </div>
   )
 }
 
-function Select({ label, name, onChange }: any) {
+function Select({ label, name, value, onChange, onBlur, error }: any) {
   return (
     <div className="mb-3">
       <label className="text-sm block mb-1">{label}</label>
       <select
         name={name}
-        required
+        value={value}
         onChange={onChange}
-        className="w-full p-2 rounded bg-gray-100 border-white/20 focus:outline-none"
+        onBlur={onBlur}
+        className={`w-full p-2 rounded bg-gray-100 border-2 ${
+          error ? 'border-red-500' : 'border-white/20'
+        } focus:outline-none focus:ring-2 focus:ring-blue-500`}
       >
         <option value="">Select size</option>
         <option>XS</option>
@@ -253,6 +441,9 @@ function Select({ label, name, onChange }: any) {
         <option>XL</option>
         <option>XXL</option>
       </select>
+      {error && (
+        <p className="text-red-600 text-sm mt-1">{error}</p>
+      )}
     </div>
   )
 }
