@@ -33,21 +33,26 @@ export default function Home() {
   const validateFullName = (name: string): string => {
     if (!name.trim()) return 'Full name is required'
     if (name.trim().length < 2) return 'Full name must be at least 2 characters'
-    if (name.trim().length > 100) return 'Full name must be less than 100 characters'
-    if (!/^[a-zA-Z\s'-]+$/.test(name.trim())) return 'Full name can only contain letters, spaces, hyphens, and apostrophes'
+    if (name.trim().length > 100)
+      return 'Full name must be less than 100 characters'
+    if (!/^[a-zA-Z\s'-]+$/.test(name.trim()))
+      return 'Full name can only contain letters, spaces, hyphens, and apostrophes'
     return ''
   }
 
   const validateAddress = (address: string): string => {
     if (!address.trim()) return 'Address is required'
-    if (address.trim().length < 5) return 'Address must be at least 5 characters'
-    if (address.trim().length > 200) return 'Address must be less than 200 characters'
+    if (address.trim().length < 5)
+      return 'Address must be at least 5 characters'
+    if (address.trim().length > 200)
+      return 'Address must be less than 200 characters'
     return ''
   }
 
   const validateContact = (contact: string): string => {
     if (!contact.trim()) return 'Contact number is required'
-    if (contact.trim().length < 3) return 'Contact number must be at least 3 characters'
+    if (contact.trim().length < 3)
+      return 'Contact number must be at least 3 characters'
     return ''
   }
 
@@ -60,22 +65,32 @@ export default function Home() {
 
   const validateFacebook = (facebook: string): string => {
     if (!facebook.trim()) return 'Facebook name is required'
-    if (facebook.trim().length < 2) return 'Facebook name must be at least 2 characters'
-    if (facebook.trim().length > 100) return 'Facebook name must be less than 100 characters'
+    if (facebook.trim().length < 2)
+      return 'Facebook name must be at least 2 characters'
+    if (facebook.trim().length > 100)
+      return 'Facebook name must be less than 100 characters'
     return ''
   }
 
   const validateApprovalCode = (code: string): string => {
     if (!code.trim()) return 'Approval code is required'
-    if (code.trim().length < 4) return 'Approval code must be at least 4 characters'
-    if (code.trim().length > 50) return 'Approval code must be less than 50 characters'
+    if (code.trim().length < 4)
+      return 'Approval code must be at least 4 characters'
+    if (code.trim().length > 50)
+      return 'Approval code must be less than 50 characters'
     return ''
   }
 
   const validateFile = (file: File | null): string => {
     if (!file) return 'Proof of payment is required'
     // Check file type
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+    const validTypes = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'image/webp'
+    ]
     if (!validTypes.includes(file.type)) {
       return 'Please upload a valid image file (JPEG, PNG, GIF, or WebP)'
     }
@@ -84,7 +99,7 @@ export default function Home() {
 
   const validateField = (name: string, value: string) => {
     let error = ''
-    
+
     if (name.includes('fullname')) {
       error = validateFullName(value)
     } else if (name.includes('address')) {
@@ -99,7 +114,7 @@ export default function Home() {
       error = validateApprovalCode(value)
     }
 
-    setErrors(prev => ({ ...prev, [name]: error }))
+    setErrors((prev) => ({ ...prev, [name]: error }))
     return error === ''
   }
 
@@ -133,7 +148,7 @@ export default function Home() {
       validateField('player_b_contact', form.player_b_contact),
       validateField('player_b_tshirt_size', form.player_b_tshirt_size),
       validateField('player_b_facebook', form.player_b_facebook),
-      validateField('approval_code', form.approval_code),
+      validateField('approval_code', form.approval_code)
     ]
 
     const fileError = validateFile(proofFile)
@@ -142,7 +157,7 @@ export default function Home() {
     }
 
     // Check if all validations passed
-    const allValid = fieldValidations.every(valid => valid) && !fileError
+    const allValid = fieldValidations.every((valid) => valid) && !fileError
 
     if (!allValid) {
       setErrorMsg('❌ Please fix all validation errors before submitting.')
@@ -309,7 +324,8 @@ export default function Home() {
                   error={errors.approval_code}
                 />
                 <p className="text-sm text-gray-600 mt-2">
-                  Please get your approval code from <strong>Steven Nowel Casilang</strong> or <strong>Berl Campomanes</strong> on Facebook.
+                  Please get your approval code from{' '}
+                  <strong>Christy A. Selatona</strong> on Facebook.
                 </p>
               </section>
 
@@ -399,7 +415,15 @@ export default function Home() {
 // ===============================
 // 4) REUSABLE INPUT COMPONENTS
 // ===============================
-function Input({ label, name, value, onChange, onBlur, error, placeholder }: any) {
+function Input({
+  label,
+  name,
+  value,
+  onChange,
+  onBlur,
+  error,
+  placeholder
+}: any) {
   return (
     <div className="mb-3">
       <label className="text-base block mb-1">{label}</label>
@@ -413,9 +437,7 @@ function Input({ label, name, value, onChange, onBlur, error, placeholder }: any
           error ? 'border-red-500' : 'border-white/20'
         } focus:outline-none focus:ring-2 focus:ring-blue-500`}
       />
-      {error && (
-        <p className="text-red-600 text-sm mt-1">{error}</p>
-      )}
+      {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
     </div>
   )
 }
@@ -441,9 +463,7 @@ function Select({ label, name, value, onChange, onBlur, error }: any) {
         <option>XL</option>
         <option>XXL</option>
       </select>
-      {error && (
-        <p className="text-red-600 text-sm mt-1">{error}</p>
-      )}
+      {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
     </div>
   )
 }
