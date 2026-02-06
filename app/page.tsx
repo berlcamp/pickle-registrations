@@ -3,6 +3,7 @@
 'use client'
 import { supabase } from '@/lib/supabase'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export default function Home() {
@@ -217,6 +218,14 @@ export default function Home() {
         <p className="text-center text-base opacity-80 mb-6">
           February 27–28, 2026 • Podlike Pickleball Court, Tangub City
         </p>
+        <div className="text-center mb-6">
+          <Link
+            href="/guidelines"
+            className="inline-block bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-500 transition cursor-pointer"
+          >
+            📋 View Tournament Guidelines
+          </Link>
+        </div>
 
         <form onSubmit={handleSubmit}>
           {!success && (
