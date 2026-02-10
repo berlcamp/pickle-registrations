@@ -23,9 +23,7 @@ export default function Home() {
     player_b_address: '',
     player_b_contact: '',
     player_b_tshirt_size: '',
-    player_b_facebook: '',
-
-    approval_code: ''
+    player_b_facebook: ''
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -73,15 +71,6 @@ export default function Home() {
     return ''
   }
 
-  const validateApprovalCode = (code: string): string => {
-    if (!code.trim()) return 'Approval code is required'
-    if (code.trim().length < 4)
-      return 'Approval code must be at least 4 characters'
-    if (code.trim().length > 50)
-      return 'Approval code must be less than 50 characters'
-    return ''
-  }
-
   const validateFile = (file: File | null): string => {
     if (!file) return 'Proof of payment is required'
     // Check file type
@@ -111,8 +100,6 @@ export default function Home() {
       error = validateTShirtSize(value)
     } else if (name.includes('facebook')) {
       error = validateFacebook(value)
-    } else if (name === 'approval_code') {
-      error = validateApprovalCode(value)
     }
 
     setErrors((prev) => ({ ...prev, [name]: error }))
@@ -148,8 +135,7 @@ export default function Home() {
       validateField('player_b_address', form.player_b_address),
       validateField('player_b_contact', form.player_b_contact),
       validateField('player_b_tshirt_size', form.player_b_tshirt_size),
-      validateField('player_b_facebook', form.player_b_facebook),
-      validateField('approval_code', form.approval_code)
+      validateField('player_b_facebook', form.player_b_facebook)
     ]
 
     const fileError = validateFile(proofFile)
@@ -318,24 +304,6 @@ export default function Home() {
                   onBlur={handleBlur}
                   error={errors.player_b_facebook}
                 />
-              </section>
-
-              <section className="bg-gray-300 p-4 rounded-xl col-span-full">
-                <h2 className="font-semibold text-xl mb-3">
-                  Registration Approval Code
-                </h2>
-                <Input
-                  label="Approval Code"
-                  name="approval_code"
-                  value={form.approval_code}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={errors.approval_code}
-                />
-                <p className="text-sm text-gray-600 mt-2">
-                  Please get your approval code from{' '}
-                  <strong>Christy A. Selatona</strong> on Facebook.
-                </p>
               </section>
 
               <section className="bg-gray-300 p-4 rounded-xl">

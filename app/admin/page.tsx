@@ -18,7 +18,6 @@ interface Registration {
   player_b_contact: string;
   player_b_tshirt_size: string;
   player_b_facebook: string;
-  approval_code: string;
   proof_of_payment_url: string | null;
   created_at: string;
 }
@@ -201,9 +200,6 @@ export default function AdminPage() {
                       Date
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                      Approval Code
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Player A
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
@@ -234,11 +230,6 @@ export default function AdminPage() {
                     >
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                         {formatDate(reg.created_at)}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-semibold rounded bg-emerald-100 text-emerald-800">
-                          {reg.approval_code}
-                        </span>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-900">
                         <div className="font-medium">
